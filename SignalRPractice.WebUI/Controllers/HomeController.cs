@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using SignalRPractice.WebUI.Models;
 using System.Web.Mvc;
 
 namespace SignalRPractice.WebUI.Controllers
@@ -10,7 +7,15 @@ namespace SignalRPractice.WebUI.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            // create model
+            ShapePageViewModel model = new ShapePageViewModel();
+
+            // create and add shapes to model
+            model.Shapes.Add(new Circle("circle2", "70px", "70px", "pink"));
+            model.Shapes.Add(new Circle("circle3", "120px", "120px", "red"));
+
+            // send model to view
+            return View(model);
         }
 
         public ActionResult About()

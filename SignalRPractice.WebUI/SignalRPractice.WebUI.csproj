@@ -143,6 +143,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ShapePageViewModel.cs" />
+    <Compile Include="Models\Shapes\Circle.cs" />
+    <Compile Include="Models\Shapes\IShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalR\EchoConnection.cs" />
     <Compile Include="SignalR\VisitorsCountConnection.cs" />
@@ -191,7 +194,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

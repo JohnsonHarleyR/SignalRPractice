@@ -11,6 +11,7 @@ namespace SignalRPractice.WebUI
         public void Configuration(IAppBuilder app)
         {
             app.MapSignalR<EchoConnection>("/echo");
+            app.MapSignalR<VisitorsCountConnection>("/visitorsCount");
         }
     }
 }

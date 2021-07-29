@@ -9,8 +9,12 @@
 .circle {
     height: 100px;
     width: 100px;
-    background-color: #ffd800;
+    background: #ffd800;
     border: 2px solid black;
     border-radius: 50%;
+}
+
+.shape {
+    padding: 10px, 10px, 10px, 10px;
 }
 

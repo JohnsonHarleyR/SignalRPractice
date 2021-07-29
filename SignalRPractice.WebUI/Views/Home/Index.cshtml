@@ -1,14 +1,30 @@
-﻿@{
+﻿@using SignalRPractice.WebUI.Models
+@model ShapePageViewModel
+
+@{
     ViewBag.Title = "Home Page";
 }
 
 <link rel="stylesheet" href="~/Content/index.css" />
 
 
+<!-- Take shapes from model to be accessed by javascript -->
+<script>
+    var shapeClasses = new Array();
+
+</script>
+
+@foreach (var shapeClass in Model.Shapes)
+            {
+                <script>
+                    shapeClasses.push(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(shapeClass, Newtonsoft.Json.Formatting.Indented)));
+                </script>
+            }
+
 
 <div id="bodyDiv">
 
-    <div class="circle" id="circle1"></div>
+    <div class="circle shape" id="circle1" onclick="changeColor('circle1')"></div>
 
 </div>
 
