@@ -25,6 +25,7 @@
 <!-- Open SignalR Connection-->
 @section Scripts{
     <script type="text/javascript">
+        console.log('@Model.Shapes[0].ShapeType.ToString()');
         jQuery(document).ready(function ($) {
             console.log("Opening SignalR connection...");
             var connection = $.connection("/SignalR/echo");

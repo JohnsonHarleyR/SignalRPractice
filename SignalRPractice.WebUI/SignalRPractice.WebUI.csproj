@@ -144,6 +144,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ShapeHelper.cs" />
     <Compile Include="Models\ShapePageViewModel.cs" />
     <Compile Include="Models\Shapes\Circle.cs" />
     <Compile Include="Models\Shapes\IShape.cs" />
