@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using SignalRPractice.WebUI.Helpers;
 using SignalRPractice.WebUI.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SignalRPractice.WebUI.SignalR
@@ -24,18 +25,23 @@ namespace SignalRPractice.WebUI.SignalR
         protected override Task OnReceived(IRequest request, string connectionId, string data)
         {
 
-            Type shapeType = ShapeHelper.GetShapeType(data);
+            string[] objectStrings = ShapeHelper.SplitJsonString(data);
 
-            if (shapeType != null)
+            // loop through strings to deserialize them
+            List<IShape> shapes = new List<IShape>();
+            for (int i = 0; i < objectStrings.Length; i++)
             {
-                IShape shape = (IShape)JsonConvert.DeserializeObject(data, shapeType);
-                return Connection.Broadcast(shape, connectionId);
+                Type shapeType = ShapeHelper.GetShapeType(objectStrings[i]);
+
+                if (shapeType != null)
+                {
+                    IShape shape = (IShape)JsonConvert.DeserializeObject(objectStrings[i], shapeType);
+                    shapes.Add(shape);
+                }
             }
-            else
-            {
-                var shape = JsonConvert.DeserializeObject(data);
-                return Connection.Broadcast(shape, connectionId);
-            }
+
+            return Connection.Broadcast(shapes, connectionId);
+
         }
     }
 }

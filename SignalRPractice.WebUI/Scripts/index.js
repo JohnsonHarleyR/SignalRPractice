@@ -1,5 +1,21 @@
 ﻿// functions
 
+// SignalR
+function sendSignalRData() {
+    connection.send(shapeClasses);
+    //console.log("Opening SignalR connection...");
+    //var connection = $.connection("/SignalR/echo");
+    //connection.start()
+    //    .done(function () {
+    //        if (shapeClasses.length > 0) {
+    //            connection.send(shapeClasses);
+    //        }
+    //    })
+    //    .fail(function () {
+    //        console.log("Error connecting to realtime service.");
+    //    });
+}
+
 function changeColor(elementId) {
     console.log("click");
     let element = document.getElementById(elementId);
@@ -21,9 +37,21 @@ function changeColor(elementId) {
         colorIndex = 0;
     } 
 
-    // change the background color of the element
+    // change color of element
     element.style.background = colors[colorIndex];
 
+    // perform finishing tasks for any page change
+    completePageChange(element);
+
+}
+
+// call this function after updating any of the shapes on the page
+function completePageChange(element) {
+    console.log("completePageChange(element)");
+    // update the corresponding class
+    updateShapeClass(element.id);
+    // send signalR data
+    sendSignalRData();
 }
 
 
@@ -83,71 +111,153 @@ function createShape(shapeClass) {
 
 }
 
-function updateShape(shapeId) {
-    console.log("Updating shape: " + shapeId);
-    let shape = null;
-    let shapeClass = null;
-
-    // find the shape in array
-    for (let i = 0; i < shapes.length; i++) {
-        if (shapes[i].id === shapeId) {
-            shape = shapes[i];
-            shapeClass = shapeClasses[i];
+function getShapeClass(element) {
+    console.log("getShapeClass(element)");
+    let idName = element.id;
+    for (let i = 0; i < shapeClasses.length; i++) {
+        if (idName == shapeClasses[i].IdName) {
+            return shapeClasses[i];
         }
     }
+    return null;
+}
+
+function updateShapeClass(shapeId) {
+    // TODO consider also updating null elements - just in case
+    console.log("Updating shape class: " + shapeId);
+    let shape = document.getElementById(shapeId);
+    let shapeClass = getShapeClass(shape);
+
+    if (shapeClass != null) {
+        // loop through object properties and set accordingly - if one is null, do not set anything
+        for (const [key, value] of Object.entries(shapeClass)) {
+            console.log('Setting value for: ' + key);
+            let shapeValue = null;
+            if (value != null) {
+                switch (key) {
+                    case "Width":
+                        shapeValue = shape.style.width;
+                        if (shapeValue != shapeClass.Width) {
+                            shapeClass.Width = shapeValue;
+                        }
+                        break;
+                    case "Height":
+                        shapeValue = shape.style.height;
+                        if (shapeValue != shapeClass.Height) {
+                            shapeClass.Height = shapeValue;
+                        }
+                        break;
+                    case "Background":
+                        shapeValue = shape.style.background;
+                        if (shapeValue != shapeClass.Background) {
+                            shapeClass.Background = shapeValue;
+                        }
+                        break;
+                    case "Border":
+                        shapeValue = shape.style.border;
+                        if (shapeValue != shapeClass.Border) {
+                            shapeClass.Border = shapeValue;
+                        }
+                        break;
+                    case "BorderRadius":
+                        shapeValue = shape.style.borderRadius;
+                        if (shapeValue != shapeClass.BorderRadius) {
+                            shapeClass.BorderRadius = shapeValue;
+                        }
+                        break;
+                    case "BorderLeft":
+                        shapeValue = shape.style.borderLeft;
+                        if (shapeValue != shapeClass.BorderLeft) {
+                            shapeClass.BorderLeft = shapeValue;
+                        }
+                        break;
+                    case "BorderRight":
+                        shapeValue = shape.style.borderRight;
+                        if (shapeValue != shapeClass.BorderRight) {
+                            shapeClass.BorderRight = shapeValue;
+                        }
+                        break;
+                    case "BorderTop":
+                        shapeValue = shape.style.borderTop;
+                        if (shapeValue != shapeClass.BorderTop) {
+                            shapeClass.borderTop = shapeValue;
+                        }
+                        break;
+                    case "BorderBottom":
+                        shapeValue = shape.style.borderBottom;
+                        if (shapeValue != shapeClass.BorderBottom) {
+                            shapeClass.BorderBottom = shapeValue;
+                        }
+                        break;
+                    case "Transform":
+                        shapeValue = shape.style.transform;
+                        if (shapeValue != shapeClass.Transform) {
+                            shapeClass.Transform = shapeValue;
+                        }
+                        break;
+                    case "TransformOrigin":
+                        shapeValue = shape.style.transformOrigin;
+                        if (shapeValue != shapeClass.TransformOrigin) {
+                            shapeClass.Width = shapeValue;
+                        }
+                        break;
+                    case "Content":
+                        shapeValue = shape.style.content;
+                        if (shapeValue != shapeClass.Content) {
+                            shapeClass.Content = shapeValue;
+                        }
+                        break;
+                }
+            }
+    }
+    
+    }
+}
+
+function updateElement(shapeClass) {
+    console.log("Updating shape element: " + shapeId);
+    let shape = getElementById(shapeClass.IdName);
 
     // loop through object properties and set accordingly - if one is null, do not set anything
-    for (const [key, value] of Object.entries(shape)) {
+    for (const [key, value] of Object.entries(shapeClass)) {
         console.log('Setting value for: ' + key);
         if (value != null) {
             switch (key) {
                 case "Width":
                     shape.style.width = value;
-                    shapeClass.Width = value;
                     break;
                 case "Height":
                     shape.style.height = value;
-                    shapeClass.Height = value;
                     break;
                 case "Background":
                     shape.style.background = value;
-                    shapeClass.Background = value;
                     break;
                 case "Border":
                     shape.style.border = value;
-                    shapeClass.Border = value;
                     break;
                 case "BorderRadius":
                     shape.style.borderRadius = value;
-                    shapeClass.BorderRadius = value;
                     break;
                 case "BorderLeft":
                     shape.style.borderLeft = value;
-                    shapeClass.BorderLeft = value;
                     break;
                 case "BorderRight":
                     shape.style.borderRight = value;
-                    shapeClass.BorderRight = value;
                     break;
                 case "BorderTop":
                     shape.style.borderTop = value;
-                    shapeClass.BorderTop = value;
                     break;
                 case "BorderBottom":
                     shape.style.borderBottom = value;
-                    shapeClass.BorderBottom = value;
                     break;
                 case "Transform":
                     shape.style.transform = value;
-                    shapeClass.Transform = value;
                     break;
                 case "TransformOrigin":
                     shape.style.transformOrigin = value;
-                    shapeClass.transformOrigin = value;
                     break;
                 case "Content":
                     shape.style.content = value;
-                    shapeClass.Content = value;
                     break;
             }
         }

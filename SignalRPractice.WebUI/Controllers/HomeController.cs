@@ -13,6 +13,7 @@ namespace SignalRPractice.WebUI.Controllers
             // create and add shapes to model
             model.Shapes.Add(new Circle("circle2", "70px", "70px", "pink"));
             model.Shapes.Add(new Circle("circle3", "120px", "120px", "red"));
+            model.Shapes.Add(new Circle("circle4", "150px", "150px", "green"));
 
             // send model to view
             return View(model);

@@ -11,7 +11,7 @@
 <!-- Take shapes from model to be accessed by javascript -->
 <script>
     var shapeClasses = new Array();
-
+    var connection; // for SignalR
 </script>
 
 @foreach (var shapeClass in Model.Shapes)
@@ -25,14 +25,18 @@
 <!-- Open SignalR Connection-->
 @section Scripts{
     <script type="text/javascript">
-        console.log('@Model.Shapes[0].ShapeType.ToString()');
+
+        console.log(JSON.stringify('@Model.Shapes'));
+        console.log(JSON.stringify(shapeClasses));
+
         jQuery(document).ready(function ($) {
             console.log("Opening SignalR connection...");
-            var connection = $.connection("/SignalR/echo");
+            connection = $.connection("/SignalR/echo");
             connection.start()
                 .done(function () {
                     if (shapeClasses.length > 0) {
-                        connection.send(shapeClasses[0]);
+                    /*connection.send(shapeClasses[0]);*/
+                        connection.send(shapeClasses);
                     }
                 })
                 .fail(function () {
