@@ -1,4 +1,6 @@
-﻿namespace SignalRPractice.WebUI.Models
+﻿using System;
+
+namespace SignalRPractice.WebUI.Models
 {
     public interface IShape
     {
@@ -21,5 +23,7 @@
         string TransformOrigin { get; set; }
 
         string Content { get; set; }
+
+        Type ShapeType { get; set; }
     }
 }

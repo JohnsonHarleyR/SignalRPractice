@@ -15,11 +15,34 @@
 </script>
 
 @foreach (var shapeClass in Model.Shapes)
-            {
-                <script>
+{
+    <script>
                     shapeClasses.push(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(shapeClass, Newtonsoft.Json.Formatting.Indented)));
-                </script>
-            }
+    </script>
+}
+
+
+<!-- Open SignalR Connection-->
+@section Scripts{
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            console.log("Opening SignalR connection...");
+            var connection = $.connection("/SignalR/echo");
+            connection.start()
+                .done(function () {
+                    if (shapeClasses.length > 0) {
+                        connection.send(shapeClasses[0]);
+                    }
+                })
+                .fail(function () {
+                    console.log("Error connecting to realtime service.");
+                })
+                ;
+
+
+        });
+    </script>
+}
 
 
 <div id="bodyDiv">

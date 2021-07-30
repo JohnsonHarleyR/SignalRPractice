@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace SignalRPractice.WebUI.SignalR
@@ -7,17 +8,20 @@ namespace SignalRPractice.WebUI.SignalR
     {
         protected override Task OnConnected(IRequest request, string connectionId)
         {
-            return Connection.Send(connectionId, "Welcome!");
+            // notify connected clients
+            return this.Connection.Broadcast("New Connection: " + connectionId, connectionId);
         }
 
         protected override Task OnDisconnected(IRequest request, string connectionId, bool stopCalled)
         {
-            return Connection.Send(connectionId, "Goodbye");
+            // notify connected clients
+            return this.Connection.Broadcast("Goodbye, " + connectionId, connectionId);
         }
 
         protected override Task OnReceived(IRequest request, string connectionId, string data)
         {
-            return Connection.Broadcast(data);
+            var shape = JsonConvert.DeserializeObject(data);
+            return Connection.Broadcast(data, connectionId);
         }
     }
 }

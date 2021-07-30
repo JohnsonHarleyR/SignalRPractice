@@ -81,9 +81,77 @@ function createShape(shapeClass) {
         }
     }
 
-    // add event listener
-/*    newShape.addEventListener("click", function () { changeColor(newShape.id) });*/
+}
 
+function updateShape(shapeId) {
+    console.log("Updating shape: " + shapeId);
+    let shape = null;
+    let shapeClass = null;
+
+    // find the shape in array
+    for (let i = 0; i < shapes.length; i++) {
+        if (shapes[i].id === shapeId) {
+            shape = shapes[i];
+            shapeClass = shapeClasses[i];
+        }
+    }
+
+    // loop through object properties and set accordingly - if one is null, do not set anything
+    for (const [key, value] of Object.entries(shape)) {
+        console.log('Setting value for: ' + key);
+        if (value != null) {
+            switch (key) {
+                case "Width":
+                    shape.style.width = value;
+                    shapeClass.Width = value;
+                    break;
+                case "Height":
+                    shape.style.height = value;
+                    shapeClass.Height = value;
+                    break;
+                case "Background":
+                    shape.style.background = value;
+                    shapeClass.Background = value;
+                    break;
+                case "Border":
+                    shape.style.border = value;
+                    shapeClass.Border = value;
+                    break;
+                case "BorderRadius":
+                    shape.style.borderRadius = value;
+                    shapeClass.BorderRadius = value;
+                    break;
+                case "BorderLeft":
+                    shape.style.borderLeft = value;
+                    shapeClass.BorderLeft = value;
+                    break;
+                case "BorderRight":
+                    shape.style.borderRight = value;
+                    shapeClass.BorderRight = value;
+                    break;
+                case "BorderTop":
+                    shape.style.borderTop = value;
+                    shapeClass.BorderTop = value;
+                    break;
+                case "BorderBottom":
+                    shape.style.borderBottom = value;
+                    shapeClass.BorderBottom = value;
+                    break;
+                case "Transform":
+                    shape.style.transform = value;
+                    shapeClass.Transform = value;
+                    break;
+                case "TransformOrigin":
+                    shape.style.transformOrigin = value;
+                    shapeClass.transformOrigin = value;
+                    break;
+                case "Content":
+                    shape.style.content = value;
+                    shapeClass.Content = value;
+                    break;
+            }
+        }
+    }
 }
 
 

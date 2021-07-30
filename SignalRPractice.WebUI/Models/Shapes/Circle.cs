@@ -1,4 +1,6 @@
-﻿namespace SignalRPractice.WebUI.Models
+﻿using System;
+
+namespace SignalRPractice.WebUI.Models
 {
     public class Circle : IShape
     {
@@ -16,6 +18,8 @@
         public string TransformOrigin { get; set; }
         public string Content { get; set; }
 
+        public Type ShapeType { get; set; }
+
 
         public Circle(string idName, string width, string height, string color)
         {
@@ -27,6 +31,7 @@
             // defaults
             Border = "2px solid black"; // HACK setting a default for the border for now
             BorderRadius = "50%";
+            ShapeType = typeof(Circle);
         }
 
     }
