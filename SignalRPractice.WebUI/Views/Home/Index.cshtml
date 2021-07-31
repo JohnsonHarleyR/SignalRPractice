@@ -32,6 +32,9 @@
         jQuery(document).ready(function ($) {
             console.log("Opening SignalR connection...");
             connection = $.connection("/SignalR/echo");
+            connection.error(function (err) {
+                alert('Oops! It seems there is a problem. \nError: ' + err.message);
+            })
             connection.start()
                 .done(function () {
                     if (shapeClasses.length > 0) {
@@ -43,7 +46,10 @@
                     console.log("Error connecting to realtime service.");
                 })
                 ;
-
+            connection.received(function (data) {
+                console.log('received');
+                receiveSignalRData(data);
+            })
 
         });
     </script>

@@ -13,13 +13,13 @@ namespace SignalRPractice.WebUI.SignalR
         protected override Task OnConnected(IRequest request, string connectionId)
         {
             // notify connected clients
-            return this.Connection.Broadcast("New Connection: " + connectionId, connectionId);
+            return this.Connection.Broadcast("New Connection: " + connectionId);
         }
 
         protected override Task OnDisconnected(IRequest request, string connectionId, bool stopCalled)
         {
             // notify connected clients
-            return this.Connection.Broadcast("Goodbye, " + connectionId, connectionId);
+            return this.Connection.Broadcast("Goodbye, " + connectionId);
         }
 
         protected override Task OnReceived(IRequest request, string connectionId, string data)
@@ -40,7 +40,7 @@ namespace SignalRPractice.WebUI.SignalR
                 }
             }
 
-            return Connection.Broadcast(shapes, connectionId);
+            return Connection.Broadcast(shapes);
 
         }
     }

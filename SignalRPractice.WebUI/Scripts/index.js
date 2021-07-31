@@ -2,6 +2,7 @@
 
 // SignalR
 function sendSignalRData() {
+    console.log('sendSignalRData()');
     connection.send(shapeClasses);
     //console.log("Opening SignalR connection...");
     //var connection = $.connection("/SignalR/echo");
@@ -14,6 +15,53 @@ function sendSignalRData() {
     //    .fail(function () {
     //        console.log("Error connecting to realtime service.");
     //    });
+}
+
+function receiveSignalRData(data) {
+    console.log("receiveSignalRData(data)");
+
+    // try to turn it into shape objects - if it doesn't work, just display the message
+
+    try {
+        // parse the data
+        var newShapeClasses = data;
+        /*var newShapeClasses = JSON.parse(data);*/
+        // loop through and update the shapeClasses - as well as the corresponding elements
+        for (let i = 0; i < newShapeClasses.length; i++) {
+            let newShapeClass = newShapeClasses[i];
+            let id = newShapeClass.IdName;
+            let element = document.getElementById(id);;
+            let shapeClass = getShapeClass(element);
+            // update shapeClass properties
+            shapeClass.Width = newShapeClass.Width;
+            shapeClass.Height = newShapeClass.Height;
+            shapeClass.Background = newShapeClass.Background;
+            shapeClass.Border = newShapeClass.Border;
+            shapeClass.BorderRadius = newShapeClass.BorderRadius;
+            shapeClass.BorderLeft = newShapeClass.BorderLeft;
+            shapeClass.BorderRight = newShapeClass.BorderRight;
+            shapeClass.BorderTop = newShapeClass.BorderTop;
+            shapeClass.BorderBottom = newShapeClass.BorderBottom;
+            shapeClass.Transform = newShapeClass.Transform;
+            shapeClass.TransformOrigin = newShapeClass.TransformOrigin;
+            shapeClass.Content = newShapeClass.Content;
+            shapeClass.ShapeType = newShapeClass.ShapeType;
+            //// now update the element
+            updateElement(shapeClass);
+        }
+    } catch (Exception) {
+        console.log(data);
+    }
+
+    // update the elements
+    updateAllElements();
+
+}
+
+function updateAllElements() {
+    for (let i = 0; i < shapeClasses.length; i++) {
+        updateElement(shapeClasses[i]);
+    }
 }
 
 function changeColor(elementId) {
@@ -66,7 +114,6 @@ function createShape(shapeClass) {
 
     // loop through object properties and set accordingly - if one is null, do not set anything
     for (const [key, value] of Object.entries(shapeClass)) {
-        console.log('Setting value for: ' + key);
         if (value != null) {
             switch (key) {
                 case "Width":
@@ -131,7 +178,6 @@ function updateShapeClass(shapeId) {
     if (shapeClass != null) {
         // loop through object properties and set accordingly - if one is null, do not set anything
         for (const [key, value] of Object.entries(shapeClass)) {
-            console.log('Setting value for: ' + key);
             let shapeValue = null;
             if (value != null) {
                 switch (key) {
@@ -215,12 +261,11 @@ function updateShapeClass(shapeId) {
 }
 
 function updateElement(shapeClass) {
-    console.log("Updating shape element: " + shapeId);
-    let shape = getElementById(shapeClass.IdName);
+    console.log("Updating shape element: " + shapeClass.IdName);
+    let shape = document.getElementById(shapeClass.IdName);
 
     // loop through object properties and set accordingly - if one is null, do not set anything
     for (const [key, value] of Object.entries(shapeClass)) {
-        console.log('Setting value for: ' + key);
         if (value != null) {
             switch (key) {
                 case "Width":
